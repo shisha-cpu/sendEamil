@@ -1,66 +1,76 @@
-<form method="POST" id="form">
-    <input type="hidden" name="access_key" value="159567c0-52e0-438c-a92f-3c4e5b0f6167">
-    
-    <input type="text" name="name" required>
-    <input type="email" name="email" required>
-    <textarea name="message" required></textarea>
-    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-    
-    <button type="submit">Submit Form</button>
-    
-    <div id="result"></div>
-</form>
+<!DOCTYPE html>
+<html lang="en">
 
-<script>
-const form = document.getElementById('form');
-const result = document.getElementById('result');
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to send data from an HTML form to email</title>
 
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Проверка чекбокса для ботов (должен оставаться unchecked)
-    const botcheck = form.elements['botcheck'];
-    if(botcheck.checked) {
-        result.innerHTML = "Bot detected!";
-        return;
-    }
-    
-    const formData = new FormData(form);
-    const object = Object.fromEntries(formData);
-    const json = JSON.stringify(object);
-    
-    // Сброс и показ результата перед отправкой
-    result.style.display = "block";
-    result.innerHTML = "Please wait...";
-    
-    fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: json
-    })
-    .then(async (response) => {
-        let json = await response.json();
-        console.log(response);
-        
-        if (response.status == 200) {
-            result.innerHTML = "Form submitted successfully";
-        } else {
-            console.log(response);
-            result.innerHTML = json.message || "Error submitting form";
-        }
-    })
-    .catch(error => {
-        console.log(error);
-        result.innerHTML = "Something went wrong!";
-    })
-    .then(function() {
-        form.reset();
-        setTimeout(() => {
-            result.style.display = "none";
-        }, 5000); // Увеличил время для чтения сообщения
-    });
-});
-</script>
+    <!-- custom css style link  -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- font link  -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<!-- contacts section start  -->
+
+<section class="contacts">
+
+    <h2 class="heading"><span>Contact</span> Us</h2>
+
+    <div class="row">
+
+        <div class="img">
+            <img src="img/contacts-img.png">
+        </div>
+
+        <form action="https://api.web3forms.com/submit" method="POST">
+
+            <input type="hidden" name="access_key" value="159567c0-52e0-438c-a92f-3c4e5b0f6167">
+
+            <span>Your name</span>
+            <input type="text" name="name" id="" class="box" required placeholder="Enter your name.." autocomplete="off">
+
+            <span>Your email</span>
+            <input type="email" name="email" id="" class="box" required placeholder="Enter your email.." autocomplete="off">
+
+            <span>Your number</span>
+            <input type="number" name="number" id="" class="box" required placeholder="Enter your number.." autocomplete="off">
+
+            <span>Select cources</span>
+            <select name="cources" id="" class="box" required>
+                <option value="" disabled selected>Select cources</option>
+                <option value="HTML">HTML</option>
+                <option value="CSS">CSS</option>
+                <option value="JavaScript">JavaScript</option>
+                <option value="PHP">PHP</option>
+                <option value="Python">Python</option>
+            </select>
+
+            <span>Select gender</span>
+            <div class="gender">
+                <input type="radio" name="gender" id="male" value="male">
+                <label for="male">male</label>
+
+                <input type="radio" name="gender" id="female" value="female">
+                <label for="female">female</label>
+            </div>
+
+            <input type="submit" value="Send data" class="btn" name="send">
+
+            
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- contacts section end  -->
+
+</body>
+
+</html>
